@@ -16,10 +16,19 @@ class _MapPageState extends State<MapPage> {
       zoom: 16
   );
 
+  final Set<Marker> _markers = {
+    const Marker(
+      markerId: MarkerId('1'),
+      position: LatLng(35.32504120390358, 139.55600562500453),
+      infoWindow: InfoWindow(title: '鶴岡八幡宮', snippet: '鶴岡八幡宮の場所はこちらです')
+    )
+  };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: GoogleMap(
+        markers: _markers,
         initialCameraPosition: _initialPosition, //初期値の座標
         onMapCreated: (GoogleMapController controller) {
           _controller = controller; //Mapが作成されたタイミングでGoogleMapController controllerを入れMapの制御を行えるようにする。
