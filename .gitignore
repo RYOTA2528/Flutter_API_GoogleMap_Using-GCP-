@@ -1,5 +1,6 @@
 # Miscellaneous]
 AndroidManifest.xml
+AppDelegate.swift
 *.class
 *.log
 *.pyc
