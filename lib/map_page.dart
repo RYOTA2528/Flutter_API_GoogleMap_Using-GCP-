@@ -17,6 +17,7 @@ class _MapPageState extends State<MapPage> {
       target: LatLng(35.32504120390358, 139.55600562500453),
       zoom: 16
   );
+  String? errorTxt; //errorハンドリング用に追加
 
   final Set<Marker> _markers = {
     const Marker(
@@ -61,10 +62,18 @@ class _MapPageState extends State<MapPage> {
                      border: OutlineInputBorder()
                    ),
                    onSubmitted: (value) async{ //(value)にはこのボタンを押した際TextFiledで入力された情報が入ってくる。
-                     CameraPosition result = await searchLatLng(value); //value（住所）から取得したカメラポジションをresult変数へ格納
-                     _controller.animateCamera(CameraUpdate.newCameraPosition(result)); //これで実際に住所の位置へカメラを移動
+                     try {
+                       CameraPosition result = await searchLatLng(value); //value（住所）から取得したカメラポジションをresult変数へ格納
+                       _controller.animateCamera(CameraUpdate.newCameraPosition(result)); //これで実際に住所の位置へカメラを移動
+                     } catch(e) {
+                       print(e);
+                       setState(() {
+                         errorTxt = '正しい住所を入力してください';
+                       });
+                     }
                    },
                  ),
+              errorTxt == null ? Container() : Text(errorTxt!),
               Expanded(
                 child: GoogleMap(
                   markers: _markers,
