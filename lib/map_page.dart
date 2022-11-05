@@ -65,11 +65,13 @@ class _MapPageState extends State<MapPage> {
                      try {
                        CameraPosition result = await searchLatLng(value); //value（住所）から取得したカメラポジションをresult変数へ格納
                        _controller.animateCamera(CameraUpdate.newCameraPosition(result)); //これで実際に住所の位置へカメラを移動
-                       if(errorTxt != null) {
-                         setState(() {
-                           errorTxt = null;
-                         });
-                       }
+                       _markers.add(Marker(
+                         markerId: MarkerId('2'),
+                         position: result.target,
+                         infoWindow: const InfoWindow(title: '検索結果')
+                       ));
+                       if(errorTxt != null) errorTxt = null;
+                       setState(() {});
                      } catch(e) {
                        print(e);
                        setState(() {
